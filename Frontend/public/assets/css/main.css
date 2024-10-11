@@ -89,12 +89,8 @@ a:hover {
   text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+/* h2 제거함 - 부동산 판매중 글씨 컬러 변경*/
+h1, h3, h4, h5, h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
 }
