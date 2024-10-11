@@ -8,7 +8,7 @@ router.get('/', async function (req, res) {
     }
 
     const csrfToken = req.csrfToken();
-    return res.render('amm/management.ejs', { csrfToken });
+    return res.render('amm/management.ejs', { csrfToken, user: req.session.user });
 });
 
 // 자산관리 사용자 계좌 정보 불러오기

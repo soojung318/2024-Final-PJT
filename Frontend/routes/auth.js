@@ -35,14 +35,15 @@ router.post('/delete', async function (req, res) {
 // 마이페이지
 router.get('/me', async function (req, res) {
     if (!req.session.user) {
-        return res.render('auth/login.ejs', { csrfToken: req.csrfToken() });
+        return res.render('auth/login.ejs', { csrfToken: req.csrfToken(), user: req.session.user, });
     }
 
     try {
         const response = await fetch(`http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/edit-info`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'sessionuser': req.session.user.userid
             },
             body: JSON.stringify({ userid: req.session.user.userid })
         });
@@ -57,7 +58,7 @@ router.get('/me', async function (req, res) {
 
         if (response.ok) {
             data.birthday = formatDateString(data.birthday);
-            return res.render('auth/me.ejs', { data, csrfToken })
+            return res.render('auth/me.ejs', { data, csrfToken, user: req.session.user })
         } else {
             return res.send('잘못된 페이지');
         }
@@ -109,7 +110,7 @@ router.post('/edit', async function (req, res) {
         data.birthday = formatDateString(data.birthday);
 
         req.session.user.nickname = data.nickname;
-        return res.render('auth/edit.ejs', { data, csrfToken });
+        return res.render('auth/edit.ejs', { data, csrfToken, user: req.session.user });
     } catch (err) {
         console.error(err);
     }
@@ -140,7 +141,7 @@ router.get('/edit', async function (req, res) {
 
         if (response.ok) {
             data.birthday = formatDateString(data.birthday);
-            return res.render('auth/edit.ejs', { data, csrfToken })
+            return res.render('auth/edit.ejs', { data, csrfToken, user: req.session.user })
         } else {
             return res.send('잘못된 페이지');
         }
@@ -149,17 +150,29 @@ router.get('/edit', async function (req, res) {
     }
 });
 
+
 // 로그인 폼
 router.get('/login', function (req, res) {
-    if (!req.session.user) {
-        return res.render('auth/login.ejs', { csrfToken: req.csrfToken() });
-    }
+    const client_id = process.env.CLIENT_ID;
+    const redirectURI = process.env.REDIRECT_URI;
+    const state = 'RANDOM_STATE'; // CSRF 공격 방지를 위한 상태 토큰
 
+    const api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirectURI}&state=${state}`;
+
+    if (!req.session.user) {
+        return res.render('auth/login.ejs', { csrfToken: req.csrfToken(), api_url: api_url });
+    }
     res.redirect('/');
 });
 
 // 로그인
 router.post('/login', async function (req, res) {
+    const client_id = process.env.CLIENT_ID;
+    const redirectURI = process.env.REDIRECT_URI;
+    const state = 'RANDOM_STATE'; // CSRF 공격 방지를 위한 상태 토큰
+
+    const api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirectURI}&state=${state}`;
+
     try {
         const response = await fetch(`http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/login`, {
             method: 'POST',
@@ -176,9 +189,9 @@ router.post('/login', async function (req, res) {
             const token = jwt.sign({ userid }, process.env.JWT_SECRET, { expiresIn: '1h' });
             req.session.user = { userid, token, nickname: data.nickname };
             res.cookie('uid', userid);
-            return res.render('index.ejs', { user: req.session.user, data, csrfToken });  // 로그인 성공
+            return res.render('index.ejs', { user: req.session.user, data, csrfToken, api_url: api_url });  // 로그인 성공
         } else {
-            return res.render('auth/login.ejs', { data, csrfToken });  // 로그인 실패
+            return res.render('auth/login.ejs', { data, csrfToken, api_url: api_url });  // 로그인 실패
         }
     } catch (err) {
         console.error(err);

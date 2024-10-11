@@ -20,10 +20,10 @@
 
         .form-container {
             max-width: 500px;
-            margin: 50px auto;
+            margin: 150px auto;
             padding: 30px;
             background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 14px 14px 18px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
 
@@ -75,6 +75,14 @@
             /* 텍스트를 앞으로 */
             background-color: #fff;
         }
+
+        .social-login-btn {
+            width: 80px;
+            height: 80px;
+            margin: 10px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+        }
     </style>
     <%- include('../menu.html') %>
 
@@ -99,14 +107,19 @@
                     <span class="sign-in_title">간편 로그인</span>
                     <p></p>
                     <a id="naver-login-btn" href="#">
-                        <img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG" alt="Naver Login" />
+                        <img src="../assets/img/naver_btn.png" alt="Naver Login" class="social-login-btn">
                     </a>
-                    <a id="naver-login-btn" href="#">
-                        <img height="50" src="" alt="google" />
+                    <a id="kakao-login-btn" href="#">
+                        <img src="../assets/img/kakao_btn.png" alt="Kakao Login" class="social-login-btn">
                     </a>
-                    <a id="naver-login-btn" href="#">
-                        <img height="50" src="" alt="kakao" />
+                    <a id="google-login-btn" href="#">
+                        <img src="../assets/img/google_btn.png" alt="Google Login" class="social-login-btn">
                     </a>
+
+
+
+
+
                 </div>
             </div>
         </form>
@@ -155,8 +168,6 @@
                         });
                     </script>
                     <% } %>
-
-
 
                         <%- include('../footer.html') %>
                             </body>
