@@ -22,6 +22,9 @@
                     /* 각 주소 정보 사이에 여백 추가 */
                 }
             </style>
+            <!--부트스트랩 클래스 적용이 안되서 추가함-->
+            <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -245,15 +248,15 @@
                                             initMap(modalData.lat, modalData.lng);
                                             $('#myModal').modal('show');
                                         } else {
-                                            $("#hidStatus").css("color", "black");
-                                            $("#hidStatus").html(`<h2>${modalData.status}</h2>`)
+                                            $("#hidStatus").css("color", "#eeeeee !important");
+                                            $("#hidStatus").html(`<h2">${modalData.status}</h2>`)
                                             $("#realId").text(`${modalData.id}`);
                                             $("#realUser_id").text(`${modalData.user_id}`);
                                             $("#realApartment").text(`${modalData.apartment}`);
                                             $("#realAddress").text(`${modalData.address}`);
                                             $("#realCity").text(`${modalData.city}`);
                                             $("#realArea").text(`${modalData.area}`);
-                                            $("#realImg").html(`<div style="margin:20px"><img width='430px' height="300px" src='/image/${modalData.imagepath}'></div>`);
+                                            $("#realImg").html(`<div style="margin:20px"><img width='100%' height="100%" src='/image/${modalData.imagepath}'></div>`);
                                             $("#realselling_price").text(`${parseFloat(modalData.selling_price).toLocaleString()}`);
                                             $("#realJeonse_price").text(`${parseFloat(modalData.jeonse_price).toLocaleString()}`);
                                             $("#realFullAddress").text(sumAddress);
@@ -307,20 +310,20 @@
                                 $("#hidrealAddress").html(`<input type="hidden" name="address" value="${address}">`);
                                 $('#realCity').html(`<br><span name='city'>${city}</span>`);
                                 $("#hidrealCity").html(`<input type="hidden" name="city" value="${city}">`);
-                                $("#realArea").html(`<div class="row"><div class="mb-3 col-md-5"><input class="form-control" type='text' name='area' value='${area}'></div></div>`);
+                                $("#realArea").html(`<div class="row"><input class="form-control" type='text' name='area' value='${area}'></div>`);
                                 if (imagepath) {
-                                    $("#realImg").html(`
-        <div id="imageContainer" style="position: relative; margin: 20px;">
-            <img id="previewImage" width='430px' height="300px" src='/image/${imagepath}'>
-            <button type="button" class="btn btn-danger btn-sm" style="position: absolute; top: 5px; right: 5px;" onclick="deleteImage()">X</button>
-        </div>
-    `);
+                                    $("#realImg")
+                                        .html(`<div id="imageContainer" style="position: relative; margin: 20px;">
+                                                <img id="previewImage" width='430px' height="300px" src='/image/${imagepath}'>
+                                                        <button type="button" class="btn btn-danger btn-sm" style="position: absolute; top: 5px; right: 5px;" onclick="deleteImage()">X</button>
+                                            </div>
+                                            `);
                                 } else {
                                     $("#realImg").html(`<input class="form-control" type='file' name='imagepath'>`);
                                 }
 
-                                $("#realselling_price").html(`<div class="row"><div class="mb-3 col-md-5"><input class="form-control " type='text' name='selling_price' value='${selling_price}'></div></div>`);
-                                $("#realJeonse_price").html(`<div class="row"><div class="mb-3 col-md-5"><input class="form-control" type='text' name='jeonse_price' value='${jeonse_price}'></div></div>`);
+                                $("#realselling_price").html(`<div class="row"><input class="form-control " type='text' name='selling_price' value='${selling_price}'></div>`);
+                                $("#realJeonse_price").html(`<div class="row"><input class="form-control" type='text' name='jeonse_price' value='${jeonse_price}'></div>`);
 
                                 // 수정 버튼 설정
                                 $('#updateSpan').html(`<button type="submit" class="btn btn-warning">수정</button>`);
@@ -466,48 +469,52 @@
                             }
                         </script>
 
-                        <!-- The Modal -->
+                        <!-- 부동산의 게시글 주소 누르면 나오는 모달창 -->
                         <form action="/real-estate/edit" method="post">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <div class="modal" id="myModal">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-xl">
                                     <div class="modal-content">
-                                        <!-- Modal Header -->
-                                        <div class="modal-header">
-                                            <div>
+                                        <!-- 모달 헤더 -->
+                                        <div class="modal-header text-center"
+                                            style="background-color:#1d222d; color:#eeeeee">
+                                            <div style="width:100%">
                                                 <h2><span id="hidStatus" name="status"></span></h2>
-                                                <br>
-                                                <div> 매물번호 :
-                                                    <span style="font-size: 24px;" id="realId" name="id"></span>
-                                                </div>
                                             </div>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
+                                        <div class="text-end"
+                                            style="padding-right:2em; padding-top: 0.5em; background-color: #eeeeee;">
+                                            매물번호 :
+                                            <span style="font-size: 24px;" id="realId" name="id"></span>
+                                        </div>
                                         <span id="realHiddenId"></span>
 
-                                        <!-- Modal body -->
+                                        <!-- 모달 바디 -->
                                         <div class="modal-body">
+                                            <div style="margin-bottom:1em; padding: 10px; border: 2px solid #1d222d; border-radius:8px; ">
+                                                <div>
+                                                    <span style="font-weight: bold;"> 판매자 ID : </span>
+                                                    <span id="realUser_id" name="user_id"></span>
+                                                </div>
 
-                                            <div><span style="font-weight: bold;"> 판매자 ID : </span><span
-                                                    id="realUser_id" name="user_id"></span></div>
-                                            <p></p>
-                                            <div>
-                                                <span style="font-weight: bold;"> 주소 : </span>
-                                                <span id="realAddress" name="address"></span>
-                                                <span id="hidrealAddress"></span>
-                                                <span name="city" id="realCity"></span>
-                                                <span id="hidrealCity"></span>
-                                                <span id="realApartment" name="apartment"></span>
-                                                <span id="hidrealApartment"></span>
+                                                <div>
+                                                    <span style="font-weight: bold;"> 주소 : </span>
+                                                    <span id="realAddress" name="address"></span>
+                                                    <span id="hidrealAddress"></span>
+                                                    <span name="city" id="realCity"></span>
+                                                    <span id="hidrealCity"></span>
+                                                    <span id="realApartment" name="apartment"></span>
+                                                    <span id="hidrealApartment"></span>
+                                                </div>
+                                                <div class="d-flex"><span style="font-weight: bold;"> 면적 :&nbsp;</span><span
+                                                        id="realArea"></span>평</div>
+                                                <div class="d-flex"><span style="font-weight: bold;"> 매매 가격 :&nbsp;
+                                                    </span><span id="realselling_price" name="selling_price"></span>원
+                                                </div>
+                                                <div class="d-flex"><span style="font-weight: bold;"> 전세 가격 :&nbsp;
+                                                    </span><span id="realJeonse_price"></span>원</div>
                                             </div>
-                                            <div><span style="font-weight: bold;"> 면적 : </span><span
-                                                    id="realArea"></span>평</div>
-                                            <div><span style="font-weight: bold;"> 매매 가격 : </span><span
-                                                    id="realselling_price" name="selling_price"></span>원
-                                            </div>
-                                            <div><span style="font-weight: bold;"> 전세 가격 : </span><span
-                                                    id="realJeonse_price"></span>원</div>
-                                            <p></p>
                                             <div id="map" style="width:100%; height:500px; border: solid 1px;"></div>
                                             <div id="imageContainer">
                                                 <span id="realImg" name="imagepath"></span>
