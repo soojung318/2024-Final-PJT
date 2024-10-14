@@ -492,7 +492,8 @@
 
                                         <!-- 모달 바디 -->
                                         <div class="modal-body">
-                                            <div style="margin-bottom:1em; padding: 10px; border: 2px solid #1d222d; border-radius:8px; ">
+                                            <div
+                                                style="margin-bottom:1em; padding: 10px; border: 2px solid #1d222d; border-radius:8px; ">
                                                 <div>
                                                     <span style="font-weight: bold;"> 판매자 ID : </span>
                                                     <span id="realUser_id" name="user_id"></span>
@@ -507,8 +508,8 @@
                                                     <span id="realApartment" name="apartment"></span>
                                                     <span id="hidrealApartment"></span>
                                                 </div>
-                                                <div class="d-flex"><span style="font-weight: bold;"> 면적 :&nbsp;</span><span
-                                                        id="realArea"></span>평</div>
+                                                <div class="d-flex"><span style="font-weight: bold;"> 면적
+                                                        :&nbsp;</span><span id="realArea"></span>평</div>
                                                 <div class="d-flex"><span style="font-weight: bold;"> 매매 가격 :&nbsp;
                                                     </span><span id="realselling_price" name="selling_price"></span>원
                                                 </div>
@@ -548,6 +549,7 @@
                                 });
                             });
                         </script>
+                        <%- include('../footer.html') %>
 </body>
 
 </html>
