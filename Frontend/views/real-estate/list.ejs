@@ -31,14 +31,13 @@
     <%- include('../menu.html') %>
         <main class="main">
             <section id="hero" class="hero-list section dark-background">
-                <img src="../public/assets/img/hero-bg.jpg" alt=""><!-- data-aos="fade-in"-->
-
+                <img src="../public/assets/img/apt_1-bg.jpg" alt="부동산 메인 이미지"><!-- data-aos="fade-in"-->
                 <!-- <div class="container text-center" data-aos="fade-up" data-aos-delay="100"> -->
                 <div class="row justify-content-center">
                     <div class="col-lg-8 text-center">
                         <h2>부동산</h2>
                         <p>부동산 현황을 제공합니다.</p>
-                        <a href="#about" class="btn-get-started">매물 등록하기</a>
+                        <a href="/real-estate/enter" class="btn-get-started">매물 등록하기</a>
                     </div>
                     <!-- </div> -->
                 </div>
@@ -308,9 +307,9 @@
                                 $("#hidrealApartment").html(`<input type="hidden" name="apartment" value="${apartment}">`);
                                 $('#realAddress').html(`<span name='address'>${address}</span>`);
                                 $("#hidrealAddress").html(`<input type="hidden" name="address" value="${address}">`);
-                                $('#realCity').html(`<br><span name='city'>${city}</span>`);
+                                $('#realCity').html(`<span name='city'>${city}</span>`);
                                 $("#hidrealCity").html(`<input type="hidden" name="city" value="${city}">`);
-                                $("#realArea").html(`<div class="row"><input class="form-control" type='text' name='area' value='${area}'></div>`);
+                                $("#realArea").html(`<input class="form-control" type='text' name='area' value='${area}' style="margin-top:0.2em;">`);
                                 if (imagepath) {
                                     $("#realImg")
                                         .html(`<div id="imageContainer" style="position: relative; margin: 20px;">
@@ -319,11 +318,11 @@
                                             </div>
                                             `);
                                 } else {
-                                    $("#realImg").html(`<input class="form-control" type='file' name='imagepath'>`);
+                                    $("#realImg").html(`<input class="form-control" type='file' name='imagepath' style="margin-top:1em;">`);
                                 }
 
-                                $("#realselling_price").html(`<div class="row"><input class="form-control " type='text' name='selling_price' value='${selling_price}'></div>`);
-                                $("#realJeonse_price").html(`<div class="row"><input class="form-control" type='text' name='jeonse_price' value='${jeonse_price}'></div>`);
+                                $("#realselling_price").html(`<input class="form-control " type='text' name='selling_price' value='${selling_price}' style="margin-top:0.2em;">`);
+                                $("#realJeonse_price").html(`<input class="form-control" type='text' name='jeonse_price' value='${jeonse_price}' style="margin-top:0.2em;">`);
 
                                 // 수정 버튼 설정
                                 $('#updateSpan').html(`<button type="submit" class="btn btn-warning">수정</button>`);
