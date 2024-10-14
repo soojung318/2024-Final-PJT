@@ -35,7 +35,7 @@ router.post('/delete', async function (req, res) {
 // 마이페이지
 router.get('/me', async function (req, res) {
     if (!req.session.user) {
-        return res.render('auth/login.ejs', { csrfToken: req.csrfToken(), user: req.session.user, });
+        return res.render('auth/login.ejs', { csrfToken: req.csrfToken(), user: req.session.user });
     }
 
     try {
@@ -277,6 +277,56 @@ router.post('/sign-up', async function (req, res) {
     }
 });
 
+router.get('/admin', async function (req, res) {
+    let page = req.query.page || 1;
+    let itemsPerPage = req.query.itemsPerPage || 10;
+
+    if (!req.session.user) {
+        return res.render('auth/login.ejs', { csrfToken: req.csrfToken() });
+    }
+
+    const sessionUserId = req.session.user.userid;
+
+    // 관리자 권한 확인: userid가 "admin"인지 확인
+    if (sessionUserId !== 'admin') {
+        return res.render('auth/error.ejs', { message: '접근 권한이 없습니다.', redirect: '/auth/login' });
+    }
+
+    try {
+        const response = await fetch(`http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/admin?page=${page}&itemsPerPage=${itemsPerPage}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'sessionuser': req.session.user ? req.session.user.userid : null // 로그인 확인
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        const csrfToken = req.csrfToken();
+        return res.render('auth/admin.ejs', {
+            data: data.users,
+            totalPages: data.totalPages,
+            currentPage: data.currentPage,
+            user: req.session.user,
+            csrfToken,
+            appkey: process.env.JAVASCRIPT_APPKEY,
+        });
+
+    } catch (error) {
+        console.error('Fetch error:', error);
+
+        if (error.message.includes('Unexpected token')) {
+            return res.status(500).send('Received HTML instead of JSON. Please check the server.');
+        }
+
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 
 module.exports = router;

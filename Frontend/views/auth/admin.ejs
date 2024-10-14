@@ -14,9 +14,75 @@
 
   <%- include('../menu.html') %>
 
-    여기는 관리자 페이지
-
+    <div style="height: 70%; margin:3em;">
+      <table class="table table-hover  text-center container mt-4 t"><!-- style="border: 1px solid;"-->
+        <caption style="font-size: 2em; caption-side: top; font-weight: bold; margin-bottom: 20px;">관리자 페이지 - 유저 목록
+        </caption>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>유저 ID</th>
+            <th>E-mail</th>
+            <th>닉네임</th>
+            <th>생년월일</th>
+            <th>생성일</th>
+            <th>회원탈퇴</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i=0; i < data.length; i++){ %>
+            <tr>
+              <td>
+                <%= data[i].id %>
+              </td>
+              <td>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#myModal"
+                  onclick="modal_content(`<%= data[i].id %>`,`<%= data[i].userid %>`,`<%= data[i].email %>`,`<%= data[i].nickname %>`,`<%= data[i].birthday %>`,`<%= data[i].created_at %>`)">
+                  <%= data[i].userid %>
+                </a>
+              </td>
+              <td>
+                <%= data[i].email %>
+              </td>
+              <td data-price="<%= data[i].nickname %>">
+                <%= data[i].nickname %>
+              </td>
+              <td data-price="<%= data[i].birthday %>">
+                <%= new Date(data[i].birthday).toISOString().split('T')[0] %>
+              </td>
+              <td data-price="<%= data[i].created_at %>">
+                <% const createdAt=new Date(data[i].created_at); %>
+                  <%= createdAt.getFullYear().toString().slice(-2) + '-' + String(createdAt.getMonth() +
+                    1).padStart(2, '0' ) + '-' + String(createdAt.getDate()).padStart(2, '0' ) + ' ' +
+                    String(createdAt.getHours()).padStart(2, '0' ) + ':' +
+                    String(createdAt.getMinutes()).padStart(2, '0' ) + ':' +
+                    String(createdAt.getSeconds()).padStart(2, '0' ) %>
+              </td>
+              <td>
+                <button class="delete btn btn-outline-danger" data-id="<%= data[i].id %>">삭제</button>
+              </td>
+            </tr>
+            <% } %>
+        </tbody>
+      </table>
+      <div class="container d-flex justify-content-between align-items-center" style="margin-top: 13px;">
+        <!-- 빈 div로 flexbox 공간을 확보 -->
+        <div class="flex-grow-1 d-flex justify-content-center">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination m-0">
+              <% for (let i=1; i <=totalPages; i++) { %>
+                <li class="page-item <%= currentPage == i ? 'active' : '' %>">
+                  <a class="page-link" href="/auth/admin?page=<%= i %>">
+                    <%= i %>
+                  </a>
+                </li>
+                <% } %>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    </body>
     <%- include('../footer.html') %>
-      </body>
 
 </html>

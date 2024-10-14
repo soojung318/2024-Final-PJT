@@ -17,7 +17,7 @@ router.post('/delete', async function (req, res) {
 
         // users.id
         const { user_id } = rows[0];
-        
+
         // 회원 기록 삭제
         await mysqldb.promise().beginTransaction();
         await Promise.all([
@@ -210,5 +210,43 @@ router.post('/sign-up', async function (req, res) {
         return res.status(400).json({ alertMsg: '이미 등록된 이메일입니다.' });
     }
 });
+
+//admin 페이지
+router.get('/admin', async function (req, res) {
+    try {
+        const { mysqldb } = await setup();
+        const sessionuser = req.headers['sessionuser'];
+
+        if (!sessionuser) {
+            return res.status(401).json({ alertMsg: '인증되지 않은 사용자' });
+        }
+
+        const page = parseInt(req.query.page) || 1;
+        const itemsPerPage = parseInt(req.query.itemsPerPage) || 10;
+        const offset = (page - 1) * itemsPerPage;
+
+        const [users] = await mysqldb.promise().query(
+            `SELECT id, userid, email, nickname, birthday, created_at 
+             FROM users LIMIT ?, ?`,
+            [offset, itemsPerPage]
+        );
+        const [totalCount] = await mysqldb.promise().query('SELECT COUNT(*) as count FROM users');
+        const totalPages = Math.ceil(totalCount[0].count / itemsPerPage);
+
+        // 올바른 JSON 반환
+        return res.json({
+            users,
+            totalPages,
+            currentPage: page
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+
 
 module.exports = router;

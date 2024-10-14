@@ -77,5 +77,4 @@ app.use('/amm', require('./routes/asset-management'));
 app.use('/real-estate', require('./routes/real-estate'));
 app.use('/chatbot', require('./routes/chatbot'));
 app.use('/naverlogin', require('./routes/naverlogin'));
-app.use('/admin', require('./routes/admin'));
-// app.use('/monitoring', require('./routes/monitering'));
+app.use('/monitoring', require('./routes/monitoring'));
