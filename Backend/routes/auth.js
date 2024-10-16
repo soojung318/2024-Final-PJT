@@ -5,36 +5,36 @@ const sha = require('sha256');
 // DB Setup
 const { setup } = require('../utils/setup_db');
 
-router.post('/delete', async function (req, res) {
-    try {
-        const { mysqldb } = await setup();
+// router.post('/delete', async function (req, res) {
+//     try {
+//         const { mysqldb } = await setup();
 
-        // 계정 조회
-        let [rows, fields] = await mysqldb.promise().query(`SELECT id as user_id FROM users WHERE userid=?`, [req.body.userid]);
-        if (rows.length == 0) {
-            return res.status(400).json({ alertMsg: '회원 정보가 존재하지 않습니다.' });
-        }
+//         // 계정 조회
+//         let [rows, fields] = await mysqldb.promise().query(`SELECT id as user_id FROM users WHERE userid=?`, [req.body.userid]);
+//         if (rows.length == 0) {
+//             return res.status(400).json({ alertMsg: '회원 정보가 존재하지 않습니다.' });
+//         }
 
-        // users.id
-        const { user_id } = rows[0];
+//         // users.id
+//         const { user_id } = rows[0];
 
-        // 회원 기록 삭제
-        await mysqldb.promise().beginTransaction();
-        await Promise.all([
-            mysqldb.promise().query(`DELETE FROM users WHERE id=?`, [user_id]),
-            mysqldb.promise().query(`DELETE FROM accounts WHERE user_id=?`, [user_id]),
-            mysqldb.promise().query(`DELETE FROM real_estate WHERE user_id=?`, [user_id])
-        ]);
-        await mysqldb.promise().commit();
+//         // 회원 기록 삭제
+//         await mysqldb.promise().beginTransaction();
+//         await Promise.all([
+//             mysqldb.promise().query(`DELETE FROM users WHERE id=?`, [user_id]),
+//             mysqldb.promise().query(`DELETE FROM accounts WHERE user_id=?`, [user_id]),
+//             mysqldb.promise().query(`DELETE FROM real_estate WHERE user_id=?`, [user_id])
+//         ]);
+//         await mysqldb.promise().commit();
 
-        // return
-        return res.json({ alertMsg: '그동안 저희 서비스를 이용해 주셔서 감사합니다. 안녕히 가세요.' });
-    } catch (err) {
-        console.error(err);
-        await mysqldb.promise().rollback();
-        return res.status(500).json({ alertMsg: '회원 탈퇴에 실패했습니다. 고객센터로 문의해 주시기 바랍니다.' });
-    }
-});
+//         // return
+//         return res.json({ alertMsg: '그동안 저희 서비스를 이용해 주셔서 감사합니다. 안녕히 가세요.' });
+//     } catch (err) {
+//         console.error(err);
+//         await mysqldb.promise().rollback();
+//         return res.status(500).json({ alertMsg: '회원 탈퇴에 실패했습니다. 고객센터로 문의해 주시기 바랍니다.' });
+//     }
+// });
 
 router.post('/edit', async function (req, res) {
     try {
@@ -246,6 +246,34 @@ router.get('/admin', async function (req, res) {
     }
 });
 
+// admin에서 회원 탈퇴
+router.post('/delete', async function (req, res) {
+    const { mysqldb } = await setup(); // MySQL 연결을 설정하는 함수 또는 객체
+    const { id } = req.body; // 요청의 body에서 id 추출
+
+    if (!id) {
+        return res.status(400).send({ confirmMsg: '유효하지 않은 ID입니다.' });
+    }
+
+    // 삭제 요청이 관리자의 ID인 경우 거부
+    if (id === 1) {
+        return res.status(403).send({ confirmMsg: '관리자 계정은 삭제할 수 없습니다.' });
+    }
+
+    try {
+        // MySQL 쿼리를 사용하여 데이터 삭제
+        const [result] = await mysqldb.promise().query(`DELETE FROM users WHERE id = ?`, [id]);
+        
+        if (result.affectedRows > 0) {
+            return res.status(200).send({ confirmMsg: '삭제 성공' });
+        } else {
+            return res.status(404).send({ confirmMsg: '해당 ID를 찾을 수 없음' });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send({ confirmMsg: '서버 오류' });
+    }
+});
 
 
 

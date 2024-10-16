@@ -23,7 +23,7 @@
         }
 
         button {
-            background-color: #d1f7f3;
+            background-color: aquamarine;
             /* color: #fff; */
             border: none;
             padding: 10px 20px;
@@ -32,11 +32,11 @@
         }
 
         button:hover {
-            background-color: #d1f7f3;
+            background-color: aquamarine;
         }
 
         .bold-hr {
-            border-top: 5px solid #d1f7f3;
+            border-top: 5px solid aquamarine;
             /* 선의 두께와 색상 조절 */
             margin-top: 20px;
             /* 구분선과 위쪽 요소 간의 간격 조절 */
@@ -82,12 +82,13 @@
                             style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 32%;">
                             <div style="padding: 10px; height: 200px;">
                                 <iframe
-                                    src="http://158.180.74.4:3000/d-solo/os6Bh8Omk/kubernetes-cluster123?orgId=1&refresh=30s&from=1700592340350&to=1700594140351&panelId=4"
-                                    width="100%" height="100%" frameborder="0"></iframe>
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=30s&from=1728976459128&to=1728978259128&theme=light&panelId=8"
+                                    width="450" height="200" frameborder="0"></iframe>
+
                             </div>
                         </div>
 
-                        <div
+                        <!-- <div
                             style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 32%;">
                             <div style="padding: 10px; height: 200px;">
                                 <iframe
@@ -106,7 +107,6 @@
                         </div>
                     </div>
 
-                    <!-- 다음 줄 -->
                     <div style="display: flex; justify-content: space-between;">
                         <div
                             style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 45%;">
@@ -124,26 +124,13 @@
                                     src="http://158.180.74.4:3000/d-solo/os6Bh8Omk/kubernetes-cluster123?orgId=1&refresh=30s&from=1700593401569&to=1700595201569&panelId=3"
                                     width="100%" height="100%" frameborder="0"></iframe>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
         <%- include('../footer.html') %>
 
-            <script>
-                function getServerIP() {
-                    fetch('http://localhost:3333/getServerIP')
-                        .then(response => response.text())
-                        .then(data => {
-                            document.getElementById('output').innerText = data;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            document.getElementById('output').innerText = 'Error retrieving IP address';
-                        });
-                }
-            </script>
 </body>
 
 </html>
