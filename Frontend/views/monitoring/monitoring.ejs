@@ -35,14 +35,7 @@
             background-color: aquamarine;
         }
 
-        .bold-hr {
-            border-top: 5px solid aquamarine;
-            /* 선의 두께와 색상 조절 */
-            margin-top: 20px;
-            /* 구분선과 위쪽 요소 간의 간격 조절 */
-            margin-bottom: 20px;
-            /* 구분선과 아래쪽 요소 간의 간격 조절 */
-        }
+
 
         #output {
             font-size: 16px;
@@ -63,11 +56,70 @@
     </style>
 </head>
 
-<body>
+<body style="background-color: #0f1114;">
     <%- include('../menu.html') %>
-        <div class="container" style="margin-top: 5%; margin-bottom: 10%;">
-            <h1>서비스 모니터링</h1>
-            <hr class="bold-hr">
+        <div class="container" style="margin-top: 5%; margin-bottom:15%;">
+            <h1 style="color:#ccccdc">서비스 모니터링 (On-premise 환경)</h1>
+            <hr style="border: 3px solid #f9b410;">
+
+            <div style="margin-bottom: 20px;">
+                <div style="padding: 10px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <!-- monitoring data cards -->
+                        <div
+                            style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 32%;">
+                            <div style="padding: 10px; height: 200px;">
+                                <iframe
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=5s&theme=dark&panelId=3"
+                                    width="100%" height="100%" frameborder="0"></iframe>
+
+                            </div>
+                        </div>
+                        <div
+                            style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 32%;">
+                            <div style="padding: 10px; height: 200px;">
+                                <iframe
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=5s&theme=dark&panelId=3"
+                                    width="100%" height="100%" frameborder="0"></iframe>
+
+                            </div>
+                        </div>
+
+                        <div
+                            style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 32%;">
+                            <div style="padding: 10px; height: 200px;">
+                                <iframe
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=5s&theme=dark&panelId=3"
+                                    width="100%" height="100%" frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between;">
+                        <div
+                            style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 45%;">
+                            <div style="padding: 10px; height: 200%;">
+                                <iframe
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=30s&from=1729059685749&to=1729061485749&viewPanel=17"
+                                    width="100%" height="100%" frameborder="0"></iframe>
+                            </div>
+                        </div>
+
+                        <div
+                            style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 45%;">
+                            <div style="padding: 10px; height: 200%;">
+                                <iframe
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=30s&from=1729060117067&to=1729061917067&theme=dark&panelId=8"
+                                    width="100%" height="100%" frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="margin-top: 5%; margin-bottom: 5%;">
+            <h1 style="color:#ccccdc">서비스 모니터링 (Cloud 환경)</h1>
+            <hr style="border: 3px solid #f9b410;">
 
             <!-- <div class="flex-container">
                 <button onclick="getServerIP()">Get Server IP</button>
@@ -80,28 +132,27 @@
                         <!-- monitoring data cards -->
                         <div
                             style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 32%;">
-                            <div style="padding: 10px; height: 200px;">
+                            <div style="padding: 10px; height: 300px;">
                                 <iframe
-                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=30s&from=1728976459128&to=1728978259128&theme=light&panelId=8"
-                                    width="450" height="200" frameborder="0"></iframe>
-
-                            </div>
-                        </div>
-
-                        <!-- <div
-                            style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 32%;">
-                            <div style="padding: 10px; height: 200px;">
-                                <iframe
-                                    src="http://158.180.74.4:3000/d-solo/os6Bh8Omk/kubernetes-cluster123?orgId=1&refresh=30s&from=1700592398141&to=1700594198141&panelId=2"
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=5s&panelId=8"
                                     width="100%" height="100%" frameborder="0"></iframe>
                             </div>
                         </div>
 
                         <div
                             style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 32%;">
-                            <div style="padding: 10px; height: 200px;">
+                            <div style="padding: 10px; height: 300px;">
                                 <iframe
-                                    src="http://158.180.74.4:3000/d-solo/os6Bh8Omk/kubernetes-cluster123?orgId=1&refresh=30s&from=1700592952676&to=1700594752676&panelId=9"
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=5s&panelId=16"
+                                    width="100%" height="100%" frameborder="0"></iframe>
+                            </div>
+                        </div>
+
+                        <div
+                            style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 32%;">
+                            <div style="padding: 10px; height: 300px;">
+                                <iframe
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=5s&theme=dark&panelId=3"
                                     width="100%" height="100%" frameborder="0"></iframe>
                             </div>
                         </div>
@@ -110,27 +161,26 @@
                     <div style="display: flex; justify-content: space-between;">
                         <div
                             style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 45%;">
-                            <div style="padding: 10px; height: 200%;">
+                            <div style="padding: 10px; height: 500px;">
                                 <iframe
-                                    src="http://158.180.74.4:3000/d-solo/os6Bh8Omk/kubernetes-cluster123?orgId=1&refresh=30s&from=1700593374900&to=1700595174900&panelId=7"
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=5s&theme=dark&panelId=17"
                                     width="100%" height="100%" frameborder="0"></iframe>
                             </div>
                         </div>
 
                         <div
                             style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); flex: 1; margin-right: 10px; width: 45%;">
-                            <div style="padding: 10px; height: 200%;">
+                            <div style="padding: 10px; height: 500px;">
                                 <iframe
-                                    src="http://158.180.74.4:3000/d-solo/os6Bh8Omk/kubernetes-cluster123?orgId=1&refresh=30s&from=1700593401569&to=1700595201569&panelId=3"
+                                    src="https://ac995c8ddbcb149c2a9a7b7b24ecffd4-412661634.ap-northeast-2.elb.amazonaws.com:80/d-solo/os6Bh8Omk/kubernetes-cluster?orgId=1&refresh=5s&theme=dark&panelId=8"
                                     width="100%" height="100%" frameborder="0"></iframe>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <%- include('../footer.html') %>
-
 </body>
 
 </html>
