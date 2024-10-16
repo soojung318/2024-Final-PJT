@@ -2,35 +2,35 @@ let router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const { formatDateString } = require('../utils/format');
 
-// 회원탈퇴
-router.post('/delete', async function (req, res) {
-    if (!req.session.user) {
-        return res.render('auth/login.ejs', { csrfToken: req.csrfToken() });
-    }
+// // 회원탈퇴
+// router.post('/delete', async function (req, res) {
+//     if (!req.session.user) {
+//         return res.render('auth/login.ejs', { csrfToken: req.csrfToken() });
+//     }
 
-    try {
-        const response = await fetch(`http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/delete`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userid: req.session.user.userid })
-        });
+//     try {
+//         const response = await fetch(`http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/delete`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({ userid: req.session.user.userid })
+//         });
 
-        const data = await response.json();
+//         const data = await response.json();
 
-        if (response.ok) {
-            req.session.destroy();
-            res.clearCookie('uid', { path: '/' });
-            return res.render('index.ejs', { data });
-        } else {
-            // 회원탈퇴 실패
-            return res.redirect('/auth/me');
-        }
-    } catch (err) {
-        console.error(err);
-    }
-});
+//         if (response.ok) {
+//             req.session.destroy();
+//             res.clearCookie('uid', { path: '/' });
+//             return res.render('index.ejs', { data });
+//         } else {
+//             // 회원탈퇴 실패
+//             return res.redirect('/auth/me');
+//         }
+//     } catch (err) {
+//         console.error(err);
+//     }
+// });
 
 // 마이페이지
 router.get('/me', async function (req, res) {
@@ -189,7 +189,8 @@ router.post('/login', async function (req, res) {
             const token = jwt.sign({ userid }, process.env.JWT_SECRET, { expiresIn: '1h' });
             req.session.user = { userid, token, nickname: data.nickname };
             res.cookie('uid', userid);
-            return res.render('index.ejs', { user: req.session.user, data, csrfToken, api_url: api_url });  // 로그인 성공
+
+            return res.redirect('/'); // 로그인 성공
         } else {
             return res.render('auth/login.ejs', { data, csrfToken, api_url: api_url });  // 로그인 실패
         }
@@ -197,6 +198,7 @@ router.post('/login', async function (req, res) {
         console.error(err);
     }
 });
+
 
 // 로그아웃
 router.get('/logout', function (req, res) {
@@ -268,7 +270,7 @@ router.post('/sign-up', async function (req, res) {
         if (response.ok) {
             req.session.user = { userid: req.body.userid, nickname: '고객' };
             res.cookie('uid', req.body.userid);
-            return res.render('index.ejs', { user: req.session.user, data, csrfToken });  // 회원가입 완료
+            return res.redirect('/');  // 회원가입 완료
         } else {
             return res.render('auth/sign-up.ejs', { data, csrfToken });  // 회원가입 실패
         }
@@ -328,5 +330,23 @@ router.get('/admin', async function (req, res) {
     }
 });
 
+// delete
+router.post('/delete', async function (req, res) {
+    try {
+        const response = await fetch(`http://${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/delete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(req.body)
+        });
+
+        const data = await response.json();
+        return res.status(200).send(data);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send({ alertMsg: '서버 오류' });
+    }
+})
 
 module.exports = router;

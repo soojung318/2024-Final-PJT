@@ -2,6 +2,17 @@
 const express = require('express');
 const app = express();
 app.use(express.static('public'));
+const cors = require('cors');
+
+
+// CORS 설정
+const corsOptions = {
+    origin: '*', // 모든 도메인 허용
+    methods: ['GET', 'POST'], // 허용할 HTTP 메서드
+    allowedHeaders: ['Content-Type', 'Authorization'], // 허용할 헤더
+};
+
+app.use(cors(corsOptions));
 
 // Session
 const { sessionConfig } = require('./utils/session');
