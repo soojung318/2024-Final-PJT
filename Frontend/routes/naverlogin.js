@@ -78,6 +78,7 @@ router.get('/login', async function (req, res) {
           }
         } else {
           res.status(response.statusCode).send('네이버 API 호출 에러');
+          return res.redirect('/');
         }
       });
     } else {
